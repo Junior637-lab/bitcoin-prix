@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitcoin Price</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+</head>
+<body class="bg-dark text-light d-flex align-items-center" style="height: 100vh;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-warning bg-secondary text-center">
+          <div class="card-header bg-warning text-dark">
+            <h1 class="mb-0">💰 Bitcoin Price</h1>
+          </div>
+          <div class="card-body">
+            <h2 id="price" class="display-4 font-weight-bold">
+              <span id="price_label">xxxx.xx</span> €
+            </h2>
+            <p class="text-muted mt-3 mb-0">Dernière mise à jour en temps réel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+  <script>
+    const url = 'https://blockchain.info/ticker';
+
+    function recupererPrix() {
+      let requete = new XMLHttpRequest();
+      requete.open('GET', url);
+      requete.responseType = 'json';
+      requete.send();
+
+      requete.onload = function () {
+        if (requete.readyState === XMLHttpRequest.DONE) {
+          if (requete.status === 200) {
+            let reponse = requete.response;
+            let prixEnEuros = reponse.EUR.last;
+            document.querySelector('#price_label').textContent = prixEnEuros;
+          } else {
+            alert('Un problème est intervenu, merci de revenir plus tard.');
+          }
+        }
+      };
+    }
+
+    // Appel initial
+    recupererPrix();
+
+    // Mise à jour toutes les secondes
+    setInterval(recupererPrix, 1000);
+  </script>
+</body>
+</html>
